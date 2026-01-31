@@ -1,0 +1,14 @@
+from turtle import*
+speed(15)
+bgcolor("black")
+begin_fill()
+color("white")
+for i in range(12):
+    for colors in ["red", "yellow", "blue"]:
+        pencolor(colors)
+        circle(100)
+        left(10)
+    
+end_fill()
+
+exitonclick()
