@@ -1,0 +1,10 @@
+from turtle import*
+speed(20)
+
+
+for i in range(36):
+    for j in range(4):
+        forward(100)
+        right(90)
+    right(10) 
+exitonclick()
