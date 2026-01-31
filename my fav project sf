@@ -1,5 +1,5 @@
 from turtle import*
-speed(15)
+speed(12)
 bgcolor("black")
 begin_fill()
 color("white")
@@ -12,3 +12,4 @@ for i in range(12):
 end_fill()
 
 exitonclick()
+
