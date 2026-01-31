@@ -1,0 +1,76 @@
+from turtle import*
+
+speed(40)
+
+penup()
+goto(-100, -100)
+pendown()
+
+for _ in range(4):
+    forward(200)
+    left(90)
+
+penup()
+goto(-30, -100)
+pendown()
+color("black", "yellow")
+begin_fill()
+
+forward(60)
+left(90)
+forward(100)
+left(90)
+forward(60)
+left(90)
+forward(100)
+left(90)
+end_fill()
+penup()
+goto(-80, 30)
+pendown()
+color("black", "green")
+begin_fill()
+
+for _ in range(4):
+    forward(40)
+    left(90)
+
+end_fill()
+penup()
+goto(40, 30)
+pendown()
+begin_fill()
+
+for _ in range(4):  
+    forward(40)
+    left(90)
+
+end_fill()
+
+
+penup()
+goto(-100, 100)
+pendown()
+color("black", "brown")
+begin_fill()
+
+forward(200)
+left(135)
+forward(140)
+left(90)
+forward(140)
+left(135)
+end_fill()
+
+penup()
+goto(-285,+215)
+begin_fill()
+color ("yellow")
+circle(40)
+end_fill()
+left(90)
+forward(20)
+
+
+
+exitonclick()
