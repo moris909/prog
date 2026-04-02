@@ -1,8 +1,5 @@
 """
-╔══════════════════════════════════════════════════════════════╗
-║          NEURAL NETWORK FROM SCRATCH — pure Python           ║
-║          No numpy. No torch. Just math and vibes.            ║
-╚══════════════════════════════════════════════════════════════╝
+
 
 Architecture: [2] -> [4] -> [4] -> [1]
 Task:         Learn XOR  (the classic impossible-for-perceptron problem)
@@ -13,11 +10,6 @@ import math
 import random
 import os
 import time
-
-
-# ─────────────────────────────────────────────
-#  MATH PRIMITIVES
-# ─────────────────────────────────────────────
 
 def sigmoid(x):
     """Squishes any number into (0, 1)."""
@@ -44,11 +36,6 @@ def mse_loss(predictions, targets):
     """Mean Squared Error loss."""
     return sum((p - t) ** 2 for p, t in zip(predictions, targets)) / len(predictions)
 
-
-# ─────────────────────────────────────────────
-#  MATRIX HELPERS  (lists of lists)
-# ─────────────────────────────────────────────
-
 def zeros(rows, cols):
     return [[0.0] * cols for _ in range(rows)]
 
@@ -66,22 +53,18 @@ def mat_transpose(mat):
     return [[mat[r][c] for r in range(rows)] for c in range(cols)]
 
 
-# ─────────────────────────────────────────────
-#  LAYER
-# ─────────────────────────────────────────────
-
 class Layer:
     def __init__(self, in_size, out_size, activation='sigmoid'):
         self.W = rand_matrix(out_size, in_size)
         self.b = [0.0] * out_size
         self.activation = activation
 
-        # cache for backprop
+       
         self.last_input   = []
         self.last_z       = []
         self.last_output  = []
 
-        # accumulated gradients
+      
         self.dW = zeros(out_size, in_size)
         self.db = [0.0] * out_size
 
@@ -105,21 +88,18 @@ class Layer:
         return self.last_output
 
     def backward(self, delta_next):
-        """
-        delta_next: gradient from the layer ahead (∂L/∂output)
-        Returns:    gradient to pass back (∂L/∂input)
-        """
-        # apply activation derivative
+      
+       
         delta = [delta_next[i] * self._activate_prime(self.last_z[i])
                  for i in range(len(self.last_z))]
 
-        # accumulate weight + bias gradients
+        
         for i in range(len(self.b)):
             self.db[i] += delta[i]
             for j in range(len(self.last_input)):
                 self.dW[i][j] += delta[i] * self.last_input[j]
 
-        # pass gradient to previous layer
+     
         WT = mat_transpose(self.W)
         return dot(WT, delta)
 
@@ -129,14 +109,9 @@ class Layer:
             self.b[i] -= lr * self.db[i] / batch_size
             for j in range(len(self.W[i])):
                 self.W[i][j] -= lr * self.dW[i][j] / batch_size
-        # zero gradients
+       
         self.dW = zeros(len(self.b), len(self.W[0]))
         self.db = [0.0] * len(self.b)
-
-
-# ─────────────────────────────────────────────
-#  NETWORK
-# ─────────────────────────────────────────────
 
 class NeuralNetwork:
     def __init__(self, layer_sizes, activations=None):
@@ -175,13 +150,13 @@ class NeuralNetwork:
             output = self.predict(x)
             total_loss += mse_loss(output, y)
 
-            # ── backward ──
+ 
             delta = self._compute_output_delta(output, y)
 
             for layer in reversed(self.layers):
                 delta = layer.backward(delta)
 
-        # ── weight update ──
+      
         for layer in self.layers:
             layer.update(lr, len(X))
 
@@ -221,11 +196,6 @@ class NeuralNetwork:
         print(f"  │  Total parameters: {total}")
         print("  └────────────────────────────────────────────┘\n")
 
-
-# ─────────────────────────────────────────────
-#  DEMO: LEARN XOR
-# ─────────────────────────────────────────────
-
 def run_xor():
     print("=" * 56)
     print("  XOR Problem — impossible for linear models")
@@ -253,10 +223,6 @@ def run_xor():
     print(f"\n  Accuracy: {correct}/{len(X)}  ({100*correct//len(X)}%)")
 
 
-# ─────────────────────────────────────────────
-#  DEMO 2: LOSS CURVE (ASCII art)
-# ─────────────────────────────────────────────
-
 def print_loss_curve(history, width=50, height=12):
     if not history:
         return
@@ -273,11 +239,6 @@ def print_loss_curve(history, width=50, height=12):
     print("  └" + "─" * (width + 8) + "┘")
     print(f"  {'epoch 0':>{width//2+8}}{'epoch ' + str(len(history)):>{width//2}}")
 
-
-# ─────────────────────────────────────────────
-#  DEMO 3: DECISION BOUNDARY (ASCII art)
-# ─────────────────────────────────────────────
-
 def print_decision_boundary(net, cols=40, rows=20):
     print("\n  ┌─ Decision boundary (XOR) " + "─" * (cols - 4) + "┐")
     for row in range(rows):
@@ -293,11 +254,7 @@ def print_decision_boundary(net, cols=40, rows=20):
         print(f"  │{line}│")
     print("  └" + "─" * (cols * 2) + "┘")
     print("  (dark = predicts 1, light = predicts 0)\n")
-
-
-# ─────────────────────────────────────────────
-#  ENTRY POINT
-# ─────────────────────────────────────────────
+─
 
 if __name__ == "__main__":
     random.seed(42)
